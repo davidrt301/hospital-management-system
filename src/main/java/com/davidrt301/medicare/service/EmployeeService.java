@@ -1,0 +1,5 @@
+package com.davidrt301.medicare.service;
+
+public interface EmployeeService {
+
+}
