@@ -12,6 +12,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.UniqueConstraint;
 
 
 @Getter
@@ -24,7 +25,7 @@ import jakarta.persistence.Id;
  * uniqueConstraints: Define una restricción de unicidad para la columna 'email',
  * impidiendo que existan correos duplicados en el sistema.
  */
-@Table(name = "persons", uniqueConstraints = @jakarta.persistence.UniqueConstraint(columnNames = "email"))
+@Table(name = "persons", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class Person {
 
     @Id

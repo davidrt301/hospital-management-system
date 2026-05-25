@@ -18,6 +18,14 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
     Page<Person> findByStatus(Status status, Pageable pageable);
 
+    /**
+     * Realiza una búsqueda de personas por nombre utilizando una coincidencia parcial.
+     * La búsqueda es insensible a mayúsculas y minúsculas (case-insensitive).
+     * 
+     * @param name El fragmento de nombre o nombre completo a buscar.
+     * @param pageable La configuración de paginación (página, tamaño, orden).
+     * @return Una página de resultados con las personas que coinciden con el criterio.
+     */
     @Query("SELECT p FROM Person p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<Person> searchByName(@Param("name") String name, Pageable pageable);
 }

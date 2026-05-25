@@ -22,3 +22,13 @@ logging:
       hibernate:
         SQL: DEBUG
         type.descriptor.sql.BasicBinder: TRACE
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+  model-converters:
+    pageable-converter:
+      enabled: true
+  default-produces-media-type: application/json
