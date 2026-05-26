@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.davidrt301.medicare.dto.request.AuthLoginRequest;
 import com.davidrt301.medicare.dto.request.AuthRegisterRequest;
 import com.davidrt301.medicare.dto.response.AuthResponse;
-import com.davidrt301.medicare.dto.response.AuthResponseDto;
 import com.davidrt301.medicare.dto.response.MessageResponse;
 import com.davidrt301.medicare.service.AuthService;
 
@@ -36,9 +35,9 @@ public class AuthController {
     })
     @PostMapping("/register")
     public ResponseEntity<MessageResponse> register(@Valid @RequestBody AuthRegisterRequest request) {
-        log.info("Solicitud para registrar nuevo usuario recibida: {}", request.nameUser());
+        log.info("Solicitud para registrar nuevo usuario recibida: {}", request.userName());
         try {
-            MessageResponse response = authService.registrar(request);
+            MessageResponse response = authService.register(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (IllegalArgumentException ex) {
             log.warn("Error al registrar usuario: {}", ex.getMessage());

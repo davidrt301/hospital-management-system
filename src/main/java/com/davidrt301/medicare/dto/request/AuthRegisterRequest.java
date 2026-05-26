@@ -11,7 +11,7 @@ public record AuthRegisterRequest(
 
     @JsonProperty("nombre")
     @NotBlank(message = "El nombre es obligatorio")
-    String nameUser,
+    String userName,
 
     @JsonProperty("contrasena")
     @NotBlank(message = "La contraseña es obligatoria")

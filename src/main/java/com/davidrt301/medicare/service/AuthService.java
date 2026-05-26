@@ -7,6 +7,8 @@ import com.davidrt301.medicare.dto.response.MessageResponse;
 
 public interface AuthService {
 
+    
+
     MessageResponse register(AuthRegisterRequest request);
 
     AuthResponse login (AuthLoginRequest request); 

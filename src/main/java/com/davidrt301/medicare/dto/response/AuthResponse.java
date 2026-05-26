@@ -16,10 +16,8 @@ public record AuthResponse(
     public AuthResponse(String message) {
         this(message, null, null);
     }
-    public AuthResponse(String message, String token, String tokenType) {
-        this.message = message;
-        this.token = token;
-        this.tokenType = tokenType;
+    public AuthResponse(String token, String tokenType) {
+        this("Login exitoso", token, tokenType);
     }
-
+    
 }

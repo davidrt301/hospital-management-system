@@ -11,6 +11,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,7 +28,7 @@ import lombok.Setter;
  */
 @Table(name = "users", 
        uniqueConstraints = @UniqueConstraint(columnNames = "user_name"))
-    
+@Builder
 public class User {
 
     @Id
