@@ -45,7 +45,7 @@ public class SecurityConfig {
         return new JwtAuthenticationFilter(jwtUtil, customUserDetailsService);
     }
 
-
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
         .csrf(AbstractHttpConfigurer::disable)
@@ -54,8 +54,7 @@ public class SecurityConfig {
         )
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/api/auth/**").permitAll()
-            .requestMatchers("/swagger-ui/**", "(/swagger-ui.html)", "/v3/api-docs/**").permitAll()
-            .requestMatchers("/v3/api-docs/**").permitAll()
+            .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/api-docs/**").permitAll()
             .requestMatchers( "/api/atenciones/mias").hasRole("PACIENTE")
             .requestMatchers(HttpMethod.POST,  "/api/**").hasAnyRole("ADMIN", "MEDICO")
             .requestMatchers(HttpMethod.PUT,  "/api/**").hasAnyRole("ADMIN", "MEDICO")

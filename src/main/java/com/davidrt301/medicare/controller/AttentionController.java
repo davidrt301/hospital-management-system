@@ -41,8 +41,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AttentionController {
 
     private final AttentionService attentionService;
-    private final PatientService pacienteService;
-
 
     @Operation(summary = "Crear una nueva atención médica")
     @ApiResponses({
