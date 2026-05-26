@@ -8,6 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,7 @@ import com.davidrt301.medicare.dto.request.AttentionRequest;
 import com.davidrt301.medicare.dto.response.AttentionResponse;
 import com.davidrt301.medicare.model.Status;
 import com.davidrt301.medicare.service.AttentionService;
+import com.davidrt301.medicare.service.PatientService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,6 +41,8 @@ import lombok.extern.slf4j.Slf4j;
 public class AttentionController {
 
     private final AttentionService attentionService;
+    private final PatientService pacienteService;
+
 
     @Operation(summary = "Crear una nueva atención médica")
     @ApiResponses({
@@ -132,6 +138,23 @@ public class AttentionController {
         log.info("Solicitud para eliminar atención con id={}", id);
         attentionService.deleteAttention(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Listar mis atenciones como paciente autenticado (paginadas)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Atenciones obtenidas correctamente"),
+            @ApiResponse(responseCode = "401", description = "No autorizado"),
+            @ApiResponse(responseCode = "404", description = "Paciente no encontrado")
+    })
+    @GetMapping("/mias")
+    @PreAuthorize("hasRole('PACIENTE')")
+    public ResponseEntity<Page<AttentionResponse>> listarAtencionesMias(@ParameterObject Pageable pageable) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        log.info("Listando atenciones del paciente autenticado: {}, page={} size={}",
+                username, pageable.getPageNumber(), pageable.getPageSize());
+        Page<AttentionResponse>  response= attentionService.getAuthenticatedPatientAttentions(username, pageable);
+        return ResponseEntity.ok(response);
     }
 
 }
