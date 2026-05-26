@@ -37,7 +37,7 @@ public class OpenApiConfig {
                                 "Incluye funcionalidades para la gestión completa del ciclo de vida de pacientes y personal médico.")
                         .contact(new Contact()
                                 .name("David RT")
-                                .email("davidrt@example.com")
+                                .email("davidrt3214434@gmal.com")
                                 .url("https://github.com/davidrt301"))
                         .license(new License()
                                 .name("Apache 2.0")
