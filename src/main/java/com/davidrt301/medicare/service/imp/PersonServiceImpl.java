@@ -12,9 +12,10 @@ import com.davidrt301.medicare.dto.response.PersonResponse;
 import com.davidrt301.medicare.exception.ResourceNotFoundException;
 import com.davidrt301.medicare.mapper.PersonMapper;
 import com.davidrt301.medicare.model.Person;
-import com.davidrt301.medicare.model.Status;
 import com.davidrt301.medicare.repository.PersonRepository;
 import com.davidrt301.medicare.service.PersonService;
+import com.davidrt301.medicare.model.Status;
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,13 +31,9 @@ public class PersonServiceImpl implements PersonService{
 
 
     @Override
-    @Transactional
     public PersonResponse createPerson(PersonRequest request) {
         Person person = personMapper.toEntity(request);
-        person.setStatus(Status.ACTIVO);
         person = personRepository.save(person);
-
-        log.info("Persona creada. id={}", person.getId());
         return personMapper.toResponse(person);
     }
 
@@ -46,50 +43,59 @@ public class PersonServiceImpl implements PersonService{
         log.info("Listando personas paginadas, page={} size={}", pageable.getPageNumber(), pageable.getPageSize());
         return personRepository.findAll(pageable)
                 .map(personMapper::toResponse);
-    }
+        }
 
     @Override
-    @Transactional
     public PersonResponse updatePerson(Long id, PersonRequest request) {
+        log.info("Actualizar persona cin id= {}", id);
         Person person = personRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Persona no encontrada con id: " + id));
+                .orElseThrow(() -> new IllegalArgumentException("Persona no encontrada con id: " + id));
 
         personMapper.updateEntity(request, person);
         person = personRepository.save(person);
-
-        log.info("Persona actualizada. id={}", person.getId());
+        
         return personMapper.toResponse(person);
     }
 
     @Override
-    @Transactional
     public void deletePerson(Long id) {
-        if (!personRepository.existsById(id)) {
-            throw new ResourceNotFoundException("Persona no encontrada con id: " + id);
+        if(!personRepository.existsById(id)){
+            throw new ResourceNotFoundException("Paciente no encontrado con ID: " + id);
         }
         personRepository.deleteById(id);
-        log.info("Persona eliminada. id={}", id);
+        log.info("Persona eliminado. id={}", id);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<PersonResponse> findByEmail(String email) {
+        log.info("Busacamos persona con email= {}", email);
+        if(email == null || email.trim().isEmpty()){
+            throw new IllegalArgumentException("El email es obligatorio");
+        }
         return personRepository.findByEmail(email)
                 .map(personMapper::toResponse);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Page<PersonResponse> getByStatus(String status, Pageable pageable) {
-        return personRepository.findByStatus(Status.valueOf(status.toUpperCase()), pageable)
+        log.info("Listando personas por estado={} paginados", status);
+        if(status == null || status.trim().isEmpty()){
+            throw new IllegalArgumentException("El estado es obligatorio");
+        }
+        Status statusEnum = Status.valueOf(status.toUpperCase());
+        return personRepository.findByStatus(statusEnum, pageable)
                 .map(personMapper::toResponse);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Page<PersonResponse> searchByName(String name, Pageable pageable) {
+        log.info("Buscando personas por nombre= {}", name);
+        if(name == null || name.trim().isEmpty()){
+            throw new IllegalArgumentException("El nombre es obligatorio");
+        }
         return personRepository.searchByName(name, pageable)
                 .map(personMapper::toResponse);
+
     }
 
 }

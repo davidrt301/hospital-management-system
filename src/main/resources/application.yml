@@ -32,3 +32,7 @@ springdoc:
     pageable-converter:
       enabled: true
   default-produces-media-type: application/json
+
+jwt:
+  secret: ZGF2aWRfcmluY29uXzEyMzQ=
+  expirationMs: 86400000

@@ -4,7 +4,9 @@ import java.util.Optional;
 
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -50,9 +52,14 @@ public class PersonController {
 
     @Operation(summary = "Listar todas las personas (paginadas)")
     @GetMapping
-    public ResponseEntity<Page<PersonResponse>> getAllPersons(@ParameterObject Pageable pageable){
-        log.info("Listando todas las personas, page={} size={}", 
-                pageable.getPageNumber(), pageable.getPageSize());
+    public ResponseEntity<Page<PersonResponse>> getAllPersons(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "2") int size,
+        @RequestParam(defaultValue = "id,asc") String[] sort){
+            Pageable pageable = PageRequest.of(
+                page, size, Sort.by(sort[0]).ascending());
+        log.info("Listando todas las personas, page={} size={} sort={} ", 
+                pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort());
         Page<PersonResponse> persons = personService.getAllPersons(pageable);
         return ResponseEntity.ok(persons);
     }

@@ -25,29 +25,26 @@ import lombok.Setter;
 @Entity
 @Table(name = "attention")
 public class Attention {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
-    @Column(nullable = false)
-    private LocalDateTime date;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        private Long id;
 
-    @Column(nullable = false)
-    private String description;
+        @Column(nullable = false)
+        private LocalDateTime date;
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false,
-            foreignKey = @ForeignKey(name = "FK_attention_patient"))
-    private Patient patient;
+        @Column(nullable = false)
+        private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id", nullable = false,
-            foreignKey = @ForeignKey(name = "FK_attention_employee"))
-    private Employee employee;
+        @ManyToOne
+        @JoinColumn(name = "patient_id", nullable = false, foreignKey = @ForeignKey(name = "FK_attention_patient"))
+        private Patient patient;
 
-    @Enumerated(EnumType.STRING)
-    private Status status;
+        @ManyToOne
+        @JoinColumn(name = "employee_id", nullable = false, foreignKey = @ForeignKey(name = "FK_attention_employee"))
+        private Employee employee;
 
+        @Enumerated(EnumType.STRING)
+        private Status status;
 
 }
