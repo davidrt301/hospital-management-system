@@ -6,6 +6,7 @@ import com.davidrt301.medicare.model.Role;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record AuthRegisterRequest(
 
@@ -19,11 +20,11 @@ public record AuthRegisterRequest(
     String password,
     
     @JsonProperty("rol")
-    @NotBlank(message = "El rol es obligatorio")
+    @NotNull(message = "El rol es obligatorio")
     Role role,
     
     @JsonProperty("id_persona")
-    @NotBlank(message = "El ID de la persona es obligatorio")
+    @NotNull(message = "El ID de la persona es obligatorio")
     Long personId
 ) {
 

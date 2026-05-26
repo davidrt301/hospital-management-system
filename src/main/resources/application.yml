@@ -34,5 +34,5 @@ springdoc:
   default-produces-media-type: application/json
 
 jwt:
-  secret: ZGF2aWRfcmluY29uXzEyMzQ=
+  secret: 5Flv1cPPcMXnjXJcg6uNtRnIF7LbhDKk3q/eMYu+kgU=
   expirationMs: 86400000

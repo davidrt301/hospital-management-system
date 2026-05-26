@@ -96,7 +96,7 @@ public class AttentionController {
     @Operation(summary = "Listar atenciones de un paciente específico (paginadas)")
     @GetMapping("/paciente/{pacienteId}")
     public ResponseEntity<Page<AttentionResponse>> listByPatient(
-            @PathVariable Long patientId,
+            @PathVariable("pacienteId") Long patientId,
             @ParameterObject Pageable pageable) {
         log.info("Listando atenciones del paciente id={}, page={} size={}",
                 patientId, pageable.getPageNumber(), pageable.getPageSize());
